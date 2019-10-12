@@ -124,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "hamidev011"
+    }
+  },
+  "defaultProject": "hamidev011",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
