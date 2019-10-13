@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectsListComponent} from './projects-list/projects-list.component';
 import {select, Store} from '@ngrx/store';
-import {projectsFeatureKey, State} from '../../store/projects-store/reducers/projects.reducer';
+import {projectsFeatureKey, ProjectsState, State} from '../../store/projects-store/reducers/projects.reducer';
 import {Observable} from 'rxjs';
 import {Project} from '../../store/projects-store/models/project';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-projects',
@@ -26,7 +27,8 @@ export class ProjectsComponent implements OnInit {
   // which is not suitable to be places in the constructor or as a value for the class property
   initializationCore() {
     this.projects$ = this.projects$ || this.store.pipe(
-      select(projectsFeatureKey)
+      select(projectsFeatureKey),
+      map((projectsState: ProjectsState) => projectsState.projects)
     );
   }
 
