@@ -11,23 +11,30 @@ import {Project} from '../../store/projects-store/models/project';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-  // this won't be available in the onActivate method
   projects$: Observable<Project[]>;
 
   constructor(private store: Store<State>) { }
 
   ngOnInit() {
-    // this won't be available in the onActivate method
-    this.projects$ = this.store.pipe(
+    this.initializationCore();
+  }
+
+  // the reason for providing this initialization function is because the moment that we need to set the internal route's data
+  // is NOT necessarily AFTER running the current component's ngOnInit
+  // alternatively we could put this initialization stuff in the constructor or as a value for the class property but it
+  // doesn't make sense because the initialization code could be complicated
+  // which is not suitable to be places in the constructor or as a value for the class property
+  initializationCore() {
+    this.projects$ = this.projects$ || this.store.pipe(
       select(projectsFeatureKey)
     );
   }
 
   onActivated(componentReference: any) {
+    this.initializationCore();
+
     if (componentReference instanceof ProjectsListComponent) {
-      componentReference.projects$ = this.store.pipe(
-        select(projectsFeatureKey)
-      );
+      componentReference.projects$ = this.projects$;
     }
   }
 }
