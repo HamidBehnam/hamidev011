@@ -5,6 +5,7 @@ import {projectsFeatureKey, ProjectsState, State} from '../../store/projects-sto
 import {Observable} from 'rxjs';
 import {Project} from '../../store/projects-store/models/project';
 import {map} from 'rxjs/operators';
+import {LoadProjectsAction} from '../../store/projects-store/actions/projects.actions';
 
 @Component({
   selector: 'app-projects',
@@ -18,6 +19,7 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.initializationCore();
+    this.loadProjects();
   }
 
   // the reason for providing this initialization function is because the moment that we need to set the internal route's data
@@ -30,6 +32,10 @@ export class ProjectsComponent implements OnInit {
       select(projectsFeatureKey),
       map((projectsState: ProjectsState) => projectsState.projects)
     );
+  }
+
+  loadProjects() {
+    this.store.dispatch(new LoadProjectsAction());
   }
 
   onActivated(componentReference: any) {

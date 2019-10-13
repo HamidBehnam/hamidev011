@@ -1,0 +1,18 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "name": "Project 1",
+      "status": "Started",
+      "owner": "345",
+      "description": "This is the Project 1"
+    },
+    {
+      "id": "2",
+      "name": "Project 2",
+      "status": "In-Progress",
+      "owner": "456",
+      "description": "This is the Project 2"
+    }
+  ]
+}
