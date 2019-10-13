@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Project} from '../../../store/projects-store/models/project';
 
 @Component({
   selector: 'app-projects-list',
@@ -6,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./projects-list.component.scss']
 })
 export class ProjectsListComponent implements OnInit {
+  projects$: Observable<Project[]>;
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
