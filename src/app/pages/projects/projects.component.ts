@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {Project} from '../../store/projects-store/models/project';
 import {map} from 'rxjs/operators';
 import {LoadProjectsAction} from '../../store/projects-store/actions/projects.actions';
+import {selectProjects} from '../../store/projects-store/selectors/projects.selectors';
 
 @Component({
   selector: 'app-projects',
@@ -29,8 +30,7 @@ export class ProjectsComponent implements OnInit {
   // which is not suitable to be places in the constructor or as a value for the class property
   initializationCore() {
     this.projects$ = this.projects$ || this.store.pipe(
-      select(projectsFeatureKey),
-      map((projectsState: ProjectsState) => projectsState.projects)
+      select(selectProjects)
     );
   }
 
