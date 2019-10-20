@@ -1,12 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectsListComponent} from './projects-list/projects-list.component';
-import {select, Store} from '@ngrx/store';
-import {projectsFeatureKey, ProjectsState, State} from '../../store/projects-store/reducers/projects.reducer';
 import {Observable} from 'rxjs';
 import {Project} from '../../store/projects-store/models/project';
-import {map} from 'rxjs/operators';
-import {LoadProjectsAction} from '../../store/projects-store/actions/projects.actions';
-import {selectProjects} from '../../store/projects-store/selectors/projects.selectors';
+import {ProjectsFacadeService} from '../../store/projects-store/services/projects-facade.service';
 
 @Component({
   selector: 'app-projects',
@@ -16,7 +12,7 @@ import {selectProjects} from '../../store/projects-store/selectors/projects.sele
 export class ProjectsComponent implements OnInit {
   projects$: Observable<Project[]>;
 
-  constructor(private store: Store<State>) { }
+  constructor(private projectsFacadeService: ProjectsFacadeService) { }
 
   ngOnInit() {
     this.initializationCore();
@@ -29,13 +25,11 @@ export class ProjectsComponent implements OnInit {
   // doesn't make sense because the initialization code could be complicated
   // which is not suitable to be places in the constructor or as a value for the class property
   initializationCore() {
-    this.projects$ = this.projects$ || this.store.pipe(
-      select(selectProjects)
-    );
+    this.projects$ = this.projectsFacadeService.projects$;
   }
 
   loadProjects() {
-    this.store.dispatch(new LoadProjectsAction());
+    this.projectsFacadeService.loadProjects();
   }
 
   onActivated(componentReference: any) {
