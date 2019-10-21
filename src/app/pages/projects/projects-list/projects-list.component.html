@@ -1,3 +1,5 @@
 <p>Here's the list of projects:</p>
 
-<pre>{{projects$ | async | json}}</pre>
+<div *ngFor="let project of projects$ | async">
+  <app-projects-list-item [project]="project"></app-projects-list-item>
+</div>

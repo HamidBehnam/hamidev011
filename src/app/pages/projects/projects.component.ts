@@ -3,6 +3,8 @@ import {ProjectsListComponent} from './projects-list/projects-list.component';
 import {Observable} from 'rxjs';
 import {Project} from '../../store/projects-store/models/project';
 import {ProjectsFacadeService} from '../../store/projects-store/services/projects-facade.service';
+import {ProjectDetailComponent} from './project-detail/project-detail.component';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-projects',
@@ -11,6 +13,7 @@ import {ProjectsFacadeService} from '../../store/projects-store/services/project
 })
 export class ProjectsComponent implements OnInit {
   projects$: Observable<Project[]>;
+  selectedProjectId$ = new Observable<string>();
 
   constructor(private projectsFacadeService: ProjectsFacadeService) { }
 
@@ -37,6 +40,10 @@ export class ProjectsComponent implements OnInit {
 
     if (componentReference instanceof ProjectsListComponent) {
       componentReference.projects$ = this.projects$;
+    } else if (componentReference instanceof ProjectDetailComponent) {
+      this.selectedProjectId$ = componentReference.projectIdSelected.pipe(
+        map(projectId => projectId)
+      );
     }
   }
 }

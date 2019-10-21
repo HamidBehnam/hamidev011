@@ -1,0 +1,9 @@
+<form [formGroup]="projectFormGroup" (ngSubmit)="onSubmit(projectFormGroup.value)">
+  <input formControlName="id" type="text">
+  <input formControlName="name" type="text">
+  <input formControlName="status" type="text">
+  <input formControlName="description" type="text">
+  <input formControlName="owner" type="text">
+
+  <button type="submit">{{submitLabel}}</button>
+</form>
