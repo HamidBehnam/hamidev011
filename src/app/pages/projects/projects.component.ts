@@ -7,6 +7,7 @@ import {Project} from '../../store/projects-store/models/project';
 import {map} from 'rxjs/operators';
 import {LoadProjectsAction} from '../../store/projects-store/actions/projects.actions';
 import {selectProjects} from '../../store/projects-store/selectors/projects.selectors';
+import {ProjectsService} from '../../store/projects-store/services/projects.service';
 
 @Component({
   selector: 'app-projects',
@@ -16,11 +17,12 @@ import {selectProjects} from '../../store/projects-store/selectors/projects.sele
 export class ProjectsComponent implements OnInit {
   projects$: Observable<Project[]>;
 
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>, private projectsService: ProjectsService) { }
 
   ngOnInit() {
     this.initializationCore();
     this.loadProjects();
+    console.log(this.projectsService.getService(234).loadProjects());
   }
 
   // the reason for providing this initialization function is because the moment that we need to set the internal route's data
