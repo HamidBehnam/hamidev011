@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectsListComponent} from './projects-list/projects-list.component';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {Project} from '../../store/projects-store/models/project';
 import {ProjectsFacadeService} from '../../store/projects-store/services/projects-facade.service';
 import {ProjectDetailComponent} from './project-detail/project-detail.component';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-projects',
@@ -13,9 +12,14 @@ import {map} from 'rxjs/operators';
 })
 export class ProjectsComponent implements OnInit {
   projects$: Observable<Project[]>;
-  selectedProjectId$ = new Observable<string>();
+  // the reason for using the BehaviorSubject is because the moment that we post the first value in the
+  // controller class the rendering process is not done yet so we'll miss the first value.
+  // By using the BehaviorSubject it stores the posted value so UI can show the first value as well.
+  selectedProjectId$: BehaviorSubject<string>;
 
-  constructor(private projectsFacadeService: ProjectsFacadeService) { }
+  constructor(private projectsFacadeService: ProjectsFacadeService) {
+    this.selectedProjectId$ = new BehaviorSubject<string>('');
+  }
 
   ngOnInit() {
     this.initializationCore();
@@ -41,9 +45,8 @@ export class ProjectsComponent implements OnInit {
     if (componentReference instanceof ProjectsListComponent) {
       componentReference.projects$ = this.projects$;
     } else if (componentReference instanceof ProjectDetailComponent) {
-      this.selectedProjectId$ = componentReference.projectIdSelected.pipe(
-        map(projectId => projectId)
-      );
+      componentReference.projectIdSelected.subscribe(projectId =>
+        this.selectedProjectId$.next(projectId));
     }
   }
 }

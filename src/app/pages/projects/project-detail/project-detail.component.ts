@@ -1,6 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {interval} from 'rxjs';
 
 @Component({
   selector: 'app-project-detail',
@@ -15,8 +14,11 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    // why not using `this.route.params.pipe(...)` ?
+    // because by using the pipe we're actually generating an observable, it won't produce
+    // the actual value immediately, it'll produce the value once it's assigned
+    // to a variable and it's consumed in the UI or in the code
     this.route.params.subscribe(params => {
-      console.log('this is the subscribe method for routes, params.id: ', params.id);
       this.projectIdSelected.emit(params.id);
     });
   }
