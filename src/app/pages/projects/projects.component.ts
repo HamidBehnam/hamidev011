@@ -15,10 +15,10 @@ export class ProjectsComponent implements OnInit {
   // the reason for using the BehaviorSubject is because the moment that we post the first value in the
   // controller class the rendering process is not done yet so we'll miss the first value.
   // By using the BehaviorSubject it stores the posted value so UI can show the first value as well.
-  selectedProjectId$: BehaviorSubject<string>;
+  selectedProjectsIds$: BehaviorSubject<string[]>;
 
   constructor(private projectsFacadeService: ProjectsFacadeService) {
-    this.selectedProjectId$ = new BehaviorSubject<string>('');
+    this.selectedProjectsIds$ = new BehaviorSubject<string[]>(['']);
   }
 
   ngOnInit() {
@@ -39,6 +39,10 @@ export class ProjectsComponent implements OnInit {
     this.projectsFacadeService.loadProjects();
   }
 
+  selectProjectsIds(projectIds: string[]) {
+    this.projectsFacadeService.selectProjectsIds(projectIds);
+  }
+
   onActivated(componentReference: any) {
     this.initializationCore();
 
@@ -46,7 +50,7 @@ export class ProjectsComponent implements OnInit {
       componentReference.projects$ = this.projects$;
     } else if (componentReference instanceof ProjectDetailComponent) {
       componentReference.projectIdSelected.subscribe(projectId =>
-        this.selectedProjectId$.next(projectId));
+        this.selectedProjectsIds$.next([projectId]));
     }
   }
 }
