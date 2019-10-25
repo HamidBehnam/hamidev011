@@ -1,5 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Project} from '../../../store/projects-store/models/project';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-project-detail',
@@ -7,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./project-detail.component.scss']
 })
 export class ProjectDetailComponent implements OnInit {
+  @Input() project$: Observable<Project>;
   @Output() projectIdSelected: EventEmitter<string>;
 
   constructor(private route: ActivatedRoute) {

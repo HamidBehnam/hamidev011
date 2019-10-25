@@ -3,15 +3,15 @@ import {projectsFeatureKey, ProjectsState} from '../reducers/projects.reducer';
 
 const projectsFeatureSelector = createFeatureSelector<ProjectsState>(projectsFeatureKey);
 
-const getSelectedProjectId = (state: ProjectsState) => state.selectedProjectId;
+const getSelectedProjectsIds = (state: ProjectsState) => state.selectedProjectsIds;
 
 const getProjects = (state: ProjectsState) => state.projects;
 
-const getSelectedProject = (state: ProjectsState) => state.projects.find(project => project.id === state.selectedProjectId);
+const getCurrentProject = (state: ProjectsState) => state.currentProject;
 
-export const selectSelectedProjectId = createSelector(projectsFeatureSelector, getSelectedProjectId);
+export const selectSelectedProjectsIds = createSelector(projectsFeatureSelector, getSelectedProjectsIds);
 
 export const selectProjects = createSelector(projectsFeatureSelector, getProjects);
 
-export const selectSelectedProject = createSelector(projectsFeatureSelector, getSelectedProject);
+export const selectCurrentProject = createSelector(projectsFeatureSelector, getCurrentProject);
 

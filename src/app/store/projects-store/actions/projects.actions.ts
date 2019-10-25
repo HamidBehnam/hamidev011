@@ -4,6 +4,8 @@ import {Project} from '../models/project';
 export enum ProjectsActionTypes {
   LoadProjects = '[Projects] Load Projects',
   LoadProjectsSuccess = '[Projects] Load Projects Success',
+  LoadProject = '[Projects] Load Project',
+  LoadProjectSuccess = '[Projects] Load Project Success',
   SelectProjectsIds = '[Projects] Select Projects Ids',
 }
 
@@ -16,11 +18,23 @@ export class LoadProjectsSuccessAction implements Action {
   constructor(public payload: Project[]) { }
 }
 
+export class LoadProjectAction implements Action {
+  readonly type = ProjectsActionTypes.LoadProject;
+  constructor(public payload: string) {}
+}
+
+export class LoadProjectSuccessAction implements Action {
+  readonly type = ProjectsActionTypes.LoadProjectSuccess;
+  constructor(public payload: Project) {}
+}
+
 export class SelectProjectsIdsAction implements Action {
   readonly type = ProjectsActionTypes.SelectProjectsIds;
-  constructor(private payload: string[]) { }
+  constructor(public payload: string[]) { }
 }
 
 export type ProjectsActions = LoadProjectsAction
   | LoadProjectsSuccessAction
+  | LoadProjectAction
+  | LoadProjectSuccessAction
   | SelectProjectsIdsAction;

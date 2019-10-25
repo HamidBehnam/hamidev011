@@ -9,11 +9,19 @@ export class ProjectsService {
 
   constructor(private http: HttpClient) { }
 
-  static getUrl() {
+  static getProjectsUrl() {
     return `${environment.apiUrl}/${projectsFeatureKey}`;
   }
 
+  static getProjectUrl(projectId: string) {
+    return `${ProjectsService.getProjectsUrl()}/${projectId}`;
+  }
+
   loadProjects(params?: Params) {
-    return this.http.get(ProjectsService.getUrl(), params);
+    return this.http.get(ProjectsService.getProjectsUrl(), params);
+  }
+
+  loadProject(projectId: string) {
+    return this.http.get(ProjectsService.getProjectUrl(projectId));
   }
 }

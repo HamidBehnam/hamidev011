@@ -11,12 +11,14 @@ export interface State extends fromRoot.State {
 
 export interface ProjectsState {
   projects: Project[];
-  selectedProjectId: string | null;
+  currentProject: Project | null;
+  selectedProjectsIds: string[] | null;
 }
 
 export const initialState: ProjectsState = {
   projects: [],
-  selectedProjectId: null
+  currentProject: null,
+  selectedProjectsIds: null
 };
 
 export function reducer(state = initialState, action: ProjectsActions): ProjectsState {
@@ -25,6 +27,16 @@ export function reducer(state = initialState, action: ProjectsActions): Projects
       return {
         ...state,
         projects: action.payload
+      };
+    case ProjectsActionTypes.SelectProjectsIds:
+      return {
+        ...state,
+        selectedProjectsIds: action.payload
+      };
+    case ProjectsActionTypes.LoadProjectSuccess:
+      return {
+        ...state,
+        currentProject: action.payload
       };
 
     default:
