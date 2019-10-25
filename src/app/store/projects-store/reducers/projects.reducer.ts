@@ -21,6 +21,18 @@ export const initialState: ProjectsState = {
   selectedProjectsIds: null
 };
 
+const updateProject = (state: ProjectsState, updatedProject: Project) => {
+  return state.projects.map(project => project.id === updatedProject.id ? updatedProject : project);
+};
+
+const updateCurrentProject = (state: ProjectsState, project: Project) => {
+  return state.currentProject ?
+    state.currentProject.id === project.id ?
+      project :
+      state.currentProject :
+    state.currentProject;
+};
+
 export function reducer(state = initialState, action: ProjectsActions): ProjectsState {
   switch (action.type) {
     case ProjectsActionTypes.LoadProjectsSuccess:
@@ -37,6 +49,12 @@ export function reducer(state = initialState, action: ProjectsActions): Projects
       return {
         ...state,
         currentProject: action.payload
+      };
+    case ProjectsActionTypes.UpdateProjectSuccess:
+      return {
+        ...state,
+        projects: updateProject(state, action.payload),
+        currentProject: updateCurrentProject(state, action.payload)
       };
 
     default:

@@ -4,7 +4,7 @@ import {
   LoadProjectsAction,
   LoadProjectsSuccessAction,
   LoadProjectAction,
-  ProjectsActionTypes, LoadProjectSuccessAction
+  ProjectsActionTypes, LoadProjectSuccessAction, UpdateProjectAction, UpdateProjectSuccessAction
 } from '../actions/projects.actions';
 import {map, switchMap} from 'rxjs/operators';
 import {ProjectsService} from '../services/projects.service';
@@ -35,4 +35,13 @@ export class ProjectsEffects {
           map((project: Project) => new LoadProjectSuccessAction(project))
     ))
   );
+
+  @Effect()
+  updateProjectAction$ = this.actions$.pipe(
+    ofType(ProjectsActionTypes.UpdateProject),
+    switchMap((action: UpdateProjectAction) => this.projectsService.updateProject(action.payload)
+      .pipe(
+        map((project: Project) => new UpdateProjectSuccessAction(project))
+    ))
+  )
 }

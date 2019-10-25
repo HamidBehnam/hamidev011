@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {Params} from '@angular/router';
 import {projectsFeatureKey} from '../reducers/projects.reducer';
+import {Project} from "../models/project";
 
 @Injectable()
 export class ProjectsService {
@@ -23,5 +24,9 @@ export class ProjectsService {
 
   loadProject(projectId: string) {
     return this.http.get(ProjectsService.getProjectUrl(projectId));
+  }
+
+  updateProject(project: Project) {
+    return this.http.put(ProjectsService.getProjectUrl(project.id), project);
   }
 }

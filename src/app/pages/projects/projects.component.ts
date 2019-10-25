@@ -45,6 +45,10 @@ export class ProjectsComponent implements OnInit {
     this.projectsFacadeService.loadProject(projectId);
   }
 
+  updateProject(project: Project) {
+    this.projectsFacadeService.updateProject(project);
+  }
+
   onActivated(componentReference: any) {
     this.initializationCore();
 
@@ -56,6 +60,7 @@ export class ProjectsComponent implements OnInit {
         this.selectProjectsIds([projectId]);
         this.loadProject(projectId);
       });
+      componentReference.projectUpdated.subscribe(project => this.updateProject(project));
     }
   }
 }

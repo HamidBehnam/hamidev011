@@ -11,11 +11,13 @@ import {Observable} from "rxjs";
 export class ProjectDetailComponent implements OnInit {
   @Input() project$: Observable<Project>;
   @Output() projectIdSelected: EventEmitter<string>;
+  @Output() projectUpdated: EventEmitter<Project>;
   pageMode: string;
 
 
   constructor(private route: ActivatedRoute) {
     this.projectIdSelected = new EventEmitter<string>();
+    this.projectUpdated = new EventEmitter<Project>();
   }
 
   ngOnInit() {
@@ -30,4 +32,7 @@ export class ProjectDetailComponent implements OnInit {
     this.route.queryParams.subscribe(queryParams => this.pageMode = queryParams.mode);
   }
 
+  onProjectSubmitted(project: Project) {
+    this.projectUpdated.emit(project);
+  }
 }

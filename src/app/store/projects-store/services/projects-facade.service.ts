@@ -4,7 +4,12 @@ import {State} from '../reducers/projects.reducer';
 import {Observable} from 'rxjs';
 import {Project} from '../models/project';
 import {selectCurrentProject, selectProjects, selectSelectedProjectsIds} from '../selectors/projects.selectors';
-import {LoadProjectsAction, LoadProjectAction, SelectProjectsIdsAction} from '../actions/projects.actions';
+import {
+  LoadProjectsAction,
+  LoadProjectAction,
+  SelectProjectsIdsAction,
+  UpdateProjectAction
+} from '../actions/projects.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +39,10 @@ export class ProjectsFacadeService {
 
   loadProject(projectId: string) {
     this.store.dispatch(new LoadProjectAction(projectId));
+  }
+
+  updateProject(project: Project) {
+    this.store.dispatch(new UpdateProjectAction(project));
   }
 
   selectProjectsIds(projectIds: string[]) {
