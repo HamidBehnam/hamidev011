@@ -1,1 +1,8 @@
-<pre>{{project$ | async | json}}</pre>
+<div *ngIf="pageMode !== 'edit'">
+  <pre>{{project$ | async | json}}</pre>
+  <button [routerLink]="['.']" [queryParams]="{'mode': 'edit'}">Edit</button>
+</div>
+
+<div *ngIf="pageMode === 'edit' && (project$ | async)">
+  <app-project-form [project]="project$ | async"></app-project-form>
+</div>

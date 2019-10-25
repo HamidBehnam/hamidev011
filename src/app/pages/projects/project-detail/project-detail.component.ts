@@ -11,6 +11,8 @@ import {Observable} from "rxjs";
 export class ProjectDetailComponent implements OnInit {
   @Input() project$: Observable<Project>;
   @Output() projectIdSelected: EventEmitter<string>;
+  pageMode: string;
+
 
   constructor(private route: ActivatedRoute) {
     this.projectIdSelected = new EventEmitter<string>();
@@ -24,6 +26,8 @@ export class ProjectDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.projectIdSelected.emit(params.id);
     });
+
+    this.route.queryParams.subscribe(queryParams => this.pageMode = queryParams.mode);
   }
 
 }
