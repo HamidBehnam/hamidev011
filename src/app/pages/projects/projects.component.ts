@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Project} from '../../store/projects-store/models/project';
 import {ProjectsFacadeService} from '../../store/projects-store/services/projects-facade.service';
 import {ProjectDetailComponent} from './project-detail/project-detail.component';
+import {ProjectMeta} from "./utils/interfaces/project-meta";
 
 @Component({
   selector: 'app-projects',
@@ -45,8 +46,8 @@ export class ProjectsComponent implements OnInit {
     this.projectsFacadeService.loadProject(projectId);
   }
 
-  updateProject(project: Project) {
-    this.projectsFacadeService.updateProject(project);
+  updateProject(projectMeta: ProjectMeta) {
+    this.projectsFacadeService.updateProject(projectMeta.project, projectMeta.callbacks);
   }
 
   onActivated(componentReference: any) {
@@ -56,11 +57,12 @@ export class ProjectsComponent implements OnInit {
       componentReference.projects$ = this.projects$;
     } else if (componentReference instanceof ProjectDetailComponent) {
       componentReference.project$ = this.currentProject$;
-      componentReference.projectIdSelected.subscribe(projectId => {
+      componentReference.projectId.subscribe(projectId => {
         this.selectProjectsIds([projectId]);
         this.loadProject(projectId);
       });
-      componentReference.projectUpdated.subscribe(project => this.updateProject(project));
+      componentReference.projectUpdated.subscribe((projectMeta: ProjectMeta) =>
+        this.updateProject(projectMeta));
     }
   }
 }

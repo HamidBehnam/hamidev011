@@ -10,6 +10,7 @@ import {
   SelectProjectsIdsAction,
   UpdateProjectAction
 } from '../actions/projects.actions';
+import {ProjectCallbacks} from "../interfaces/project-callbacks";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ export class ProjectsFacadeService {
   projects$: Observable<Project[]>;
   currentProject$: Observable<Project>;
   selectedProjectsIds$: Observable<string[]>;
+  projectCallbacks: ProjectCallbacks;
+  projectDefaultCallbacks: ProjectCallbacks;
 
   constructor(private store: Store<State>) {
     this.projects$ = this.store.pipe(
@@ -31,6 +34,11 @@ export class ProjectsFacadeService {
     this.currentProject$ = this.store.pipe(
       select(selectCurrentProject)
     );
+
+    this.projectDefaultCallbacks = {
+      success: () => {},
+      error: () => {}
+    };
   }
 
   loadProjects() {
@@ -41,7 +49,11 @@ export class ProjectsFacadeService {
     this.store.dispatch(new LoadProjectAction(projectId));
   }
 
-  updateProject(project: Project) {
+  updateProject(project: Project, projectCallbacks: ProjectCallbacks) {
+    this.projectCallbacks = {
+      ...this.projectDefaultCallbacks,
+      ...projectCallbacks
+    };
     this.store.dispatch(new UpdateProjectAction(project));
   }
 

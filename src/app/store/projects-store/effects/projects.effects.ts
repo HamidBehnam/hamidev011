@@ -9,12 +9,13 @@ import {
 import {map, switchMap} from 'rxjs/operators';
 import {ProjectsService} from '../services/projects.service';
 import {Project} from '../models/project';
+import {ProjectsFacadeService} from "../services/projects-facade.service";
 
 
 
 @Injectable()
 export class ProjectsEffects {
-  constructor(private actions$: Actions, private projectsService: ProjectsService) {}
+  constructor(private actions$: Actions, private projectsService: ProjectsService, private projectsFacadeService: ProjectsFacadeService) {}
 
   @Effect()
   loadProjectsAction$ = this.actions$.pipe(
@@ -41,7 +42,10 @@ export class ProjectsEffects {
     ofType(ProjectsActionTypes.UpdateProject),
     switchMap((action: UpdateProjectAction) => this.projectsService.updateProject(action.payload)
       .pipe(
-        map((project: Project) => new UpdateProjectSuccessAction(project))
+        map((project: Project) => {
+          this.projectsFacadeService.projectCallbacks.success();
+          return new UpdateProjectSuccessAction(project);
+        })
     ))
-  )
+  );
 }
