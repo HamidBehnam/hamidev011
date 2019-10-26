@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Project} from '../../../store/projects-store/models/project';
-import {Observable} from "rxjs";
-import {ProjectMeta} from "../utils/interfaces/project-meta";
-import {ProjectCallbacks} from "../../../store/projects-store/interfaces/project-callbacks";
+import {Observable} from 'rxjs';
+import {ProjectMeta} from '../utils/interfaces/project-meta';
+import {ProjectCallbacks} from '../../../store/projects-store/interfaces/project-callbacks';
 
 @Component({
   selector: 'app-project-detail',
