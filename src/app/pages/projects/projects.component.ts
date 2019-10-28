@@ -65,25 +65,37 @@ export class ProjectsComponent implements OnInit {
     this.projectsFacadeService.resetCurrentProject();
   }
 
+  projectListComponentManager(projectsListComponent: ProjectsListComponent) {
+    projectsListComponent.projects$ = this.projects$;
+  }
+
+  projectDetailComponentManager(projectDetailComponent: ProjectDetailComponent) {
+    projectDetailComponent.project$ = this.currentProject$;
+    projectDetailComponent.projectId.subscribe(projectId => {
+      this.selectProjectsIds([projectId]);
+      this.loadProject(projectId);
+    });
+    projectDetailComponent.projectUpdated.subscribe((projectMeta: ProjectMeta) =>
+      this.updateProject(projectMeta));
+    projectDetailComponent.projectDeleted.subscribe((projectMeta: ProjectMeta) =>
+      this.deleteProject(projectMeta));
+    projectDetailComponent.done.subscribe(() => this.projectDetailPageDone());
+  }
+
+  projectCreatorComponentManager(projectCreatorComponent: ProjectCreatorComponent) {
+    projectCreatorComponent.projectCreated.subscribe((projectMeta: ProjectMeta) =>
+      this.createProject(projectMeta));
+  }
+
   onActivated(componentReference: any) {
     this.initializationCore();
 
     if (componentReference instanceof ProjectsListComponent) {
-      componentReference.projects$ = this.projects$;
+      this.projectListComponentManager(componentReference);
     } else if (componentReference instanceof ProjectDetailComponent) {
-      componentReference.project$ = this.currentProject$;
-      componentReference.projectId.subscribe(projectId => {
-        this.selectProjectsIds([projectId]);
-        this.loadProject(projectId);
-      });
-      componentReference.projectUpdated.subscribe((projectMeta: ProjectMeta) =>
-        this.updateProject(projectMeta));
-      componentReference.projectDeleted.subscribe((projectMeta: ProjectMeta) =>
-        this.deleteProject(projectMeta));
-      componentReference.done.subscribe(() => this.projectDetailPageDone());
+      this.projectDetailComponentManager(componentReference);
     } else if (componentReference instanceof ProjectCreatorComponent) {
-      componentReference.projectCreated.subscribe((projectMeta: ProjectMeta) =>
-        this.createProject(projectMeta));
+      this.projectCreatorComponentManager(componentReference);
     }
   }
 }
