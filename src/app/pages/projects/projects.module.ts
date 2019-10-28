@@ -8,10 +8,11 @@ import { ProjectFormComponent } from './project-form/project-form.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { ProjectsListItemComponent } from './projects-list-item/projects-list-item.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
+import { ProjectCreatorComponent } from './project-creator/project-creator.component';
 
 
 @NgModule({
-  declarations: [ProjectsComponent, ProjectsListComponent, ProjectFormComponent, ProjectsListItemComponent, ProjectDetailComponent],
+  declarations: [ProjectsComponent, ProjectsListComponent, ProjectFormComponent, ProjectsListItemComponent, ProjectDetailComponent, ProjectCreatorComponent],
   imports: [
     CommonModule,
     ProjectsRoutingModule,

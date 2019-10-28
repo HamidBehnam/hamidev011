@@ -8,6 +8,8 @@ export enum ProjectsActionTypes {
   LoadProjectSuccess = '[Projects] Load Project Success',
   UpdateProject = '[Projects] Update Project',
   UpdateProjectSuccess = '[Projects] Update Project Success',
+  CreateProject = '[Projects] Create Project',
+  CreateProjectSuccess = '[Projects] Create Project Success',
   SelectProjectsIds = '[Projects] Select Projects Ids',
 }
 
@@ -40,6 +42,16 @@ export class UpdateProjectSuccessAction implements Action {
   constructor(public payload: Project) {}
 }
 
+export class CreateProjectAction implements Action {
+  readonly type = ProjectsActionTypes.CreateProject;
+  constructor(public payload: Project) {}
+}
+
+export class CreateProjectSuccessAction implements Action {
+  readonly type = ProjectsActionTypes.CreateProjectSuccess;
+  constructor(public payload: Project) {}
+}
+
 export class SelectProjectsIdsAction implements Action {
   readonly type = ProjectsActionTypes.SelectProjectsIds;
   constructor(public payload: string[]) { }
@@ -51,4 +63,6 @@ export type ProjectsActions = LoadProjectsAction
   | LoadProjectSuccessAction
   | UpdateProjectAction
   | UpdateProjectSuccessAction
+  | CreateProjectAction
+  | CreateProjectSuccessAction
   | SelectProjectsIdsAction;

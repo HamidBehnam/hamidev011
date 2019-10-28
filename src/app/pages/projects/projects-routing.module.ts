@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ProjectsComponent} from './projects.component';
 import {ProjectsListComponent} from './projects-list/projects-list.component';
 import {ProjectDetailComponent} from './project-detail/project-detail.component';
+import {ProjectCreatorComponent} from './project-creator/project-creator.component';
 
 const routes: Routes = [{
   path: '',
@@ -11,6 +12,9 @@ const routes: Routes = [{
   children: [{
     path: '',
     component: ProjectsListComponent
+  }, {
+    path: 'create',
+    component: ProjectCreatorComponent
   }, {
     path: ':id',
     component: ProjectDetailComponent

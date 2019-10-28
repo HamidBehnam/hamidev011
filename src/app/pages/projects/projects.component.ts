@@ -5,6 +5,7 @@ import {Project} from '../../store/projects-store/models/project';
 import {ProjectsFacadeService} from '../../store/projects-store/services/projects-facade.service';
 import {ProjectDetailComponent} from './project-detail/project-detail.component';
 import {ProjectMeta} from "./utils/interfaces/project-meta";
+import {ProjectCreatorComponent} from './project-creator/project-creator.component';
 
 @Component({
   selector: 'app-projects',
@@ -50,6 +51,10 @@ export class ProjectsComponent implements OnInit {
     this.projectsFacadeService.updateProject(projectMeta.project, projectMeta.callbacks);
   }
 
+  createProject(projectMeta: ProjectMeta) {
+    this.projectsFacadeService.createProject(projectMeta.project, projectMeta.callbacks);
+  }
+
   onActivated(componentReference: any) {
     this.initializationCore();
 
@@ -63,6 +68,9 @@ export class ProjectsComponent implements OnInit {
       });
       componentReference.projectUpdated.subscribe((projectMeta: ProjectMeta) =>
         this.updateProject(projectMeta));
+    } else if (componentReference instanceof ProjectCreatorComponent) {
+      componentReference.projectCreated.subscribe((projectMeta: ProjectMeta) =>
+        this.createProject(projectMeta));
     }
   }
 }

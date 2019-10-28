@@ -4,7 +4,12 @@ import {
   LoadProjectsAction,
   LoadProjectsSuccessAction,
   LoadProjectAction,
-  ProjectsActionTypes, LoadProjectSuccessAction, UpdateProjectAction, UpdateProjectSuccessAction
+  ProjectsActionTypes,
+  LoadProjectSuccessAction,
+  UpdateProjectAction,
+  UpdateProjectSuccessAction,
+  CreateProjectAction,
+  CreateProjectSuccessAction
 } from '../actions/projects.actions';
 import {map, switchMap} from 'rxjs/operators';
 import {ProjectsService} from '../services/projects.service';
@@ -45,6 +50,18 @@ export class ProjectsEffects {
         map((project: Project) => {
           this.projectsFacadeService.projectCallbacks.success();
           return new UpdateProjectSuccessAction(project);
+        })
+    ))
+  );
+
+  @Effect()
+  createProjectAction$ = this.actions$.pipe(
+    ofType(ProjectsActionTypes.CreateProject),
+    switchMap((action: CreateProjectAction) => this.projectsService.createProject(action.payload)
+      .pipe(
+        map((project: Project) => {
+          this.projectsFacadeService.projectCallbacks.success();
+          return new CreateProjectSuccessAction(project);
         })
     ))
   );

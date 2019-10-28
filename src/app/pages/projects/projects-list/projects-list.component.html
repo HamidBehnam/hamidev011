@@ -1,5 +1,7 @@
+<button (click)="goToProjectCreator()">Create a Project</button>
+
 <p>Here's the list of projects:</p>
 
-<div *ngFor="let project of projects$ | async">
+<div *ngFor="let project of projects$ | async" class="project-list-item-container" (click)="goToProject(project)">
   <app-projects-list-item [project]="project"></app-projects-list-item>
 </div>

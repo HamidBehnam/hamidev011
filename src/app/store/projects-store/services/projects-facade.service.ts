@@ -8,7 +8,7 @@ import {
   LoadProjectsAction,
   LoadProjectAction,
   SelectProjectsIdsAction,
-  UpdateProjectAction
+  UpdateProjectAction, CreateProjectAction
 } from '../actions/projects.actions';
 import {ProjectCallbacks} from "../interfaces/project-callbacks";
 
@@ -20,7 +20,7 @@ export class ProjectsFacadeService {
   currentProject$: Observable<Project>;
   selectedProjectsIds$: Observable<string[]>;
   projectCallbacks: ProjectCallbacks;
-  projectDefaultCallbacks: ProjectCallbacks;
+  private readonly projectDefaultCallbacks: ProjectCallbacks;
 
   constructor(private store: Store<State>) {
     this.projects$ = this.store.pipe(
@@ -49,12 +49,21 @@ export class ProjectsFacadeService {
     this.store.dispatch(new LoadProjectAction(projectId));
   }
 
-  updateProject(project: Project, projectCallbacks: ProjectCallbacks) {
+  private registerCallbacks(projectCallbacks: ProjectCallbacks) {
     this.projectCallbacks = {
       ...this.projectDefaultCallbacks,
       ...projectCallbacks
     };
+  }
+
+  updateProject(project: Project, projectCallbacks: ProjectCallbacks) {
+    this.registerCallbacks(projectCallbacks);
     this.store.dispatch(new UpdateProjectAction(project));
+  }
+
+  createProject(project: Project, projectCallbacks: ProjectCallbacks) {
+    this.registerCallbacks(projectCallbacks);
+    this.store.dispatch(new CreateProjectAction(project));
   }
 
   selectProjectsIds(projectIds: string[]) {

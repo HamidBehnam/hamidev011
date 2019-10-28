@@ -33,6 +33,12 @@ const updateCurrentProject = (state: ProjectsState, project: Project) => {
     state.currentProject;
 };
 
+const createProject = (state: ProjectsState, createdProject: Project) => {
+  state.projects.push(createdProject);
+  return state.projects;
+};
+
+
 export function reducer(state = initialState, action: ProjectsActions): ProjectsState {
   switch (action.type) {
     case ProjectsActionTypes.LoadProjectsSuccess:
@@ -54,6 +60,12 @@ export function reducer(state = initialState, action: ProjectsActions): Projects
       return {
         ...state,
         projects: updateProject(state, action.payload),
+        currentProject: updateCurrentProject(state, action.payload)
+      };
+    case ProjectsActionTypes.CreateProjectSuccess:
+      return {
+        ...state,
+        projects: createProject(state, action.payload),
         currentProject: updateCurrentProject(state, action.payload)
       };
 
