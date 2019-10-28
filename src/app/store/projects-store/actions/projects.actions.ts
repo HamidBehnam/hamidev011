@@ -15,6 +15,7 @@ export enum ProjectsActionTypes {
   TakeSnapshot = '[Projects] Take Snapshot',
   DestroySnapshot = '[Projects] Destroy Snapshot',
   RollbackRecentChange = '[Projects] Rollback Recent Change',
+  ResetCurrentProject = '[Projects] Reset Current Project',
   SelectProjectsIds = '[Projects] Select Projects Ids',
 }
 
@@ -79,6 +80,10 @@ export class RollbackRecentChangeAction implements Action {
   readonly type = ProjectsActionTypes.RollbackRecentChange;
 }
 
+export class ResetCurrentProjectAction implements Action {
+  readonly type = ProjectsActionTypes.ResetCurrentProject;
+}
+
 export class SelectProjectsIdsAction implements Action {
   readonly type = ProjectsActionTypes.SelectProjectsIds;
   constructor(public payload: string[]) { }
@@ -97,4 +102,5 @@ export type ProjectsActions = LoadProjectsAction
   | TakeSnapshotAction
   | DestroySnapshotAction
   | RollbackRecentChangeAction
+  | ResetCurrentProjectAction
   | SelectProjectsIdsAction;

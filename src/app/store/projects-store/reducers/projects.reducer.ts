@@ -114,6 +114,11 @@ export function reducer(state = initialState, action: ProjectsActions): Projects
         ...state,
         ...state.snapshot
       };
+    case ProjectsActionTypes.ResetCurrentProject:
+      return {
+        ...state,
+        currentProject: null
+      };
 
     default:
       return state;

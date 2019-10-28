@@ -1,7 +1,7 @@
-import {ProjectCallbacks} from "../../../../store/projects-store/interfaces/project-callbacks";
 import {Project} from "../../../../store/projects-store/models/project";
+import {Callbacks} from "../../../../store/shared/utils/interfaces/callbacks";
 
 export interface ProjectMeta {
   project: Project;
-  callbacks?: ProjectCallbacks;
+  callbacks?: Callbacks;
 }

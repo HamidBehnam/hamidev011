@@ -52,7 +52,7 @@ export class ProjectsEffects {
     switchMap((action: UpdateProjectAction) => this.projectsService.updateProject(action.payload)
       .pipe(
         map((project: Project) => {
-          this.projectsFacadeService.projectCallbacks.success();
+          this.projectsFacadeService.callbacks.success();
           return new UpdateProjectSuccessAction(project);
         })
     ))
@@ -66,7 +66,7 @@ export class ProjectsEffects {
   //   switchMap((action: CreateProjectAction) => this.projectsService.createProject(action.payload)
   //     .pipe(
   //       map((project: Project) => {
-  //         this.projectsFacadeService.projectCallbacks.success();
+  //         this.projectsFacadeService.callbacks.success();
   //         return new CreateProjectSuccessAction(project);
   //       })
   //   ))
@@ -76,7 +76,7 @@ export class ProjectsEffects {
   createProjectAction$ = this.actions$.pipe(
     ofType(ProjectsActionTypes.CreateProject),
     switchMap((action: CreateProjectAction) => {
-      this.projectsFacadeService.projectCallbacks.success();
+      this.projectsFacadeService.callbacks.success();
       return concat(
         of(new TakeSnapshotAction()),
         of(new CreateProjectSuccessAction(action.payload)),
@@ -85,7 +85,7 @@ export class ProjectsEffects {
             switchMap(() => EMPTY),
             retry(3),
             catchError(error => {
-              this.projectsFacadeService.projectCallbacks.error();
+              this.projectsFacadeService.callbacks.error();
               return of(new RollbackRecentChangeAction());
             })
           ),
@@ -100,7 +100,7 @@ export class ProjectsEffects {
     switchMap((action: DeleteProjectAction) => this.projectsService.deleteProject(action.payload)
       .pipe(
         map(() => {
-          this.projectsFacadeService.projectCallbacks.success();
+          this.projectsFacadeService.callbacks.success();
           return new DeleteProjectSuccessAction(action.payload);
         })
     ))

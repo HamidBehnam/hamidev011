@@ -5,7 +5,7 @@
 <div *ngIf="pageMode !== 'edit'">
   <button [routerLink]="['.']" [queryParams]="{'mode': 'edit'}">Edit</button>
   <button (click)="deleteProject()">Delete</button>
-  <button [routerLink]="['/projects']">See All Projects</button>
+  <button (click)="missionDone()">See All Projects</button>
 </div>
 
 <div *ngIf="pageMode === 'edit' && project">

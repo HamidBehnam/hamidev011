@@ -3,7 +3,7 @@
 type success = () => any;
 type error = (error?: any) => any;
 
-export interface ProjectCallbacks {
+export interface Callbacks {
   success?: success;
   error?: error;
 }

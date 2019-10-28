@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Project} from '../../../store/projects-store/models/project';
 import {ProjectMeta} from '../utils/interfaces/project-meta';
 import {Router} from '@angular/router';
+import {Callbacks} from "../../../store/shared/utils/interfaces/callbacks";
 
 @Component({
   selector: 'app-project-creator',
@@ -10,12 +11,17 @@ import {Router} from '@angular/router';
 })
 export class ProjectCreatorComponent implements OnInit {
   @Output() projectCreated: EventEmitter<ProjectMeta>;
+  createCallbacks: Callbacks;
 
   constructor(private router: Router) {
     this.projectCreated = new EventEmitter<ProjectMeta>();
   }
 
   ngOnInit() {
+    this.createCallbacks = {
+      success: this.createSuccess,
+      error: this.createError
+    };
   }
 
   createSuccess = () => {
@@ -29,10 +35,7 @@ export class ProjectCreatorComponent implements OnInit {
   onProjectCreated(project: Project) {
     const projectMeta: ProjectMeta = {
       project,
-      callbacks: {
-        success: this.createSuccess,
-        error: this.createError
-      }
+      callbacks: this.createCallbacks
     };
     this.projectCreated.emit(projectMeta);
   }

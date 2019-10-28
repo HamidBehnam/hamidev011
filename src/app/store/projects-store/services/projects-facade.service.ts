@@ -8,9 +8,9 @@ import {
   LoadProjectsAction,
   LoadProjectAction,
   SelectProjectsIdsAction,
-  UpdateProjectAction, CreateProjectAction, DeleteProjectAction
+  UpdateProjectAction, CreateProjectAction, DeleteProjectAction, ResetCurrentProjectAction
 } from '../actions/projects.actions';
-import {ProjectCallbacks} from "../interfaces/project-callbacks";
+import {Callbacks} from "../../shared/utils/interfaces/callbacks";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,8 @@ export class ProjectsFacadeService {
   projects$: Observable<Project[]>;
   currentProject$: Observable<Project>;
   selectedProjectsIds$: Observable<string[]>;
-  projectCallbacks: ProjectCallbacks;
-  private readonly projectDefaultCallbacks: ProjectCallbacks;
+  callbacks: Callbacks;
+  private readonly projectDefaultCallbacks: Callbacks;
 
   constructor(private store: Store<State>) {
     this.projects$ = this.store.pipe(
@@ -49,26 +49,30 @@ export class ProjectsFacadeService {
     this.store.dispatch(new LoadProjectAction(projectId));
   }
 
-  private registerCallbacks(projectCallbacks: ProjectCallbacks) {
-    this.projectCallbacks = {
+  private registerCallbacks(callbacks: Callbacks) {
+    this.callbacks = {
       ...this.projectDefaultCallbacks,
-      ...projectCallbacks
+      ...callbacks
     };
   }
 
-  updateProject(project: Project, projectCallbacks: ProjectCallbacks) {
-    this.registerCallbacks(projectCallbacks);
+  updateProject(project: Project, callbacks: Callbacks) {
+    this.registerCallbacks(callbacks);
     this.store.dispatch(new UpdateProjectAction(project));
   }
 
-  createProject(project: Project, projectCallbacks: ProjectCallbacks) {
-    this.registerCallbacks(projectCallbacks);
+  createProject(project: Project, callbacks: Callbacks) {
+    this.registerCallbacks(callbacks);
     this.store.dispatch(new CreateProjectAction(project));
   }
 
-  deleteProject(project: Project, projectCallbacks: ProjectCallbacks) {
-    this.registerCallbacks(projectCallbacks);
+  deleteProject(project: Project, callbacks: Callbacks) {
+    this.registerCallbacks(callbacks);
     this.store.dispatch(new DeleteProjectAction(project));
+  }
+
+  resetCurrentProject() {
+    this.store.dispatch(new ResetCurrentProjectAction());
   }
 
   selectProjectsIds(projectIds: string[]) {

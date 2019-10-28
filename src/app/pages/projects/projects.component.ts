@@ -6,6 +6,7 @@ import {ProjectsFacadeService} from '../../store/projects-store/services/project
 import {ProjectDetailComponent} from './project-detail/project-detail.component';
 import {ProjectMeta} from "./utils/interfaces/project-meta";
 import {ProjectCreatorComponent} from './project-creator/project-creator.component';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-projects',
@@ -17,7 +18,7 @@ export class ProjectsComponent implements OnInit {
   selectedProjectsIds$: Observable<string[]>;
   currentProject$: Observable<Project>;
 
-  constructor(private projectsFacadeService: ProjectsFacadeService) {}
+  constructor(private projectsFacadeService: ProjectsFacadeService, private router: Router) {}
 
   ngOnInit() {
     this.initializationCore();
@@ -59,6 +60,11 @@ export class ProjectsComponent implements OnInit {
     this.projectsFacadeService.deleteProject(projectMeta.project, projectMeta.callbacks);
   }
 
+  projectDetailPageDone() {
+    this.router.navigate(['./projects']);
+    this.projectsFacadeService.resetCurrentProject();
+  }
+
   onActivated(componentReference: any) {
     this.initializationCore();
 
@@ -74,6 +80,7 @@ export class ProjectsComponent implements OnInit {
         this.updateProject(projectMeta));
       componentReference.projectDeleted.subscribe((projectMeta: ProjectMeta) =>
         this.deleteProject(projectMeta));
+      componentReference.done.subscribe(() => this.projectDetailPageDone());
     } else if (componentReference instanceof ProjectCreatorComponent) {
       componentReference.projectCreated.subscribe((projectMeta: ProjectMeta) =>
         this.createProject(projectMeta));
