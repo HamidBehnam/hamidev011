@@ -38,6 +38,10 @@ const createProject = (state: ProjectsState, createdProject: Project) => {
   return state.projects;
 };
 
+const deleteProject = (state: ProjectsState, deletedProject: Project) => {
+  return state.projects.filter(project => project.id !== deletedProject.id);
+};
+
 
 export function reducer(state = initialState, action: ProjectsActions): ProjectsState {
   switch (action.type) {
@@ -67,6 +71,12 @@ export function reducer(state = initialState, action: ProjectsActions): Projects
         ...state,
         projects: createProject(state, action.payload),
         currentProject: updateCurrentProject(state, action.payload)
+      };
+    case ProjectsActionTypes.DeleteProjectSuccess:
+      return {
+        ...state,
+        projects: deleteProject(state, action.payload),
+        currentProject: null
       };
 
     default:

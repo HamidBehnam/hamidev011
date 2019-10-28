@@ -9,7 +9,7 @@ import {
   UpdateProjectAction,
   UpdateProjectSuccessAction,
   CreateProjectAction,
-  CreateProjectSuccessAction
+  CreateProjectSuccessAction, DeleteProjectAction, DeleteProjectSuccessAction
 } from '../actions/projects.actions';
 import {map, switchMap} from 'rxjs/operators';
 import {ProjectsService} from '../services/projects.service';
@@ -62,6 +62,18 @@ export class ProjectsEffects {
         map((project: Project) => {
           this.projectsFacadeService.projectCallbacks.success();
           return new CreateProjectSuccessAction(project);
+        })
+    ))
+  );
+
+  @Effect()
+  deleteProjectAction$ = this.actions$.pipe(
+    ofType(ProjectsActionTypes.DeleteProject),
+    switchMap((action: DeleteProjectAction) => this.projectsService.deleteProject(action.payload)
+      .pipe(
+        map(() => {
+          this.projectsFacadeService.projectCallbacks.success();
+          return new DeleteProjectSuccessAction(action.payload);
         })
     ))
   );

@@ -10,37 +10,9 @@
     {
       "id": "2",
       "name": "Project 2",
-      "status": "In-Progress",
+      "status": "Started",
       "description": "This is the Project 2",
       "owner": "483"
-    },
-    {
-      "id": "3",
-      "name": "Hamid",
-      "status": "sdsdsd",
-      "description": "asasa",
-      "owner": "wqwqwq"
-    },
-    {
-      "id": "4",
-      "name": "ewew",
-      "status": "sdsd",
-      "description": "xcxcx",
-      "owner": "fgfgg"
-    },
-    {
-      "id": "5",
-      "name": "er",
-      "status": "er",
-      "description": "ere",
-      "owner": "erer"
-    },
-    {
-      "id": "6",
-      "name": "fdf",
-      "status": "ttttt",
-      "description": "sdsds",
-      "owner": "dsdsd"
     }
   ]
 }

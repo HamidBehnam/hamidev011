@@ -55,6 +55,10 @@ export class ProjectsComponent implements OnInit {
     this.projectsFacadeService.createProject(projectMeta.project, projectMeta.callbacks);
   }
 
+  deleteProject(projectMeta: ProjectMeta) {
+    this.projectsFacadeService.deleteProject(projectMeta.project, projectMeta.callbacks);
+  }
+
   onActivated(componentReference: any) {
     this.initializationCore();
 
@@ -68,6 +72,8 @@ export class ProjectsComponent implements OnInit {
       });
       componentReference.projectUpdated.subscribe((projectMeta: ProjectMeta) =>
         this.updateProject(projectMeta));
+      componentReference.projectDeleted.subscribe((projectMeta: ProjectMeta) =>
+        this.deleteProject(projectMeta));
     } else if (componentReference instanceof ProjectCreatorComponent) {
       componentReference.projectCreated.subscribe((projectMeta: ProjectMeta) =>
         this.createProject(projectMeta));

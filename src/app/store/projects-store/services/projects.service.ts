@@ -33,4 +33,8 @@ export class ProjectsService {
   createProject(project: Project) {
     return this.http.post(ProjectsService.getProjectsUrl(), project);
   }
+
+  deleteProject(project: Project) {
+    return this.http.delete(ProjectsService.getProjectUrl(project.id));
+  }
 }

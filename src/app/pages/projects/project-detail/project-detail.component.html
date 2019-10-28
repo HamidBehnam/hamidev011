@@ -1,11 +1,13 @@
 <div>
-  <pre>{{project$ | async | json}}</pre>
+  <pre>{{project | json}}</pre>
 </div>
 
 <div *ngIf="pageMode !== 'edit'">
   <button [routerLink]="['.']" [queryParams]="{'mode': 'edit'}">Edit</button>
+  <button (click)="deleteProject()">Delete</button>
+  <button [routerLink]="['/projects']">See All Projects</button>
 </div>
 
-<div *ngIf="pageMode === 'edit' && (project$ | async)">
-  <app-project-form [project]="project$ | async" submitLabel="Update" (projectSubmitted)="onProjectSubmitted($event)"></app-project-form>
+<div *ngIf="pageMode === 'edit' && project">
+  <app-project-form [project]="project" submitLabel="Update" (projectSubmitted)="onProjectSubmitted($event)"></app-project-form>
 </div>

@@ -8,7 +8,7 @@ import {
   LoadProjectsAction,
   LoadProjectAction,
   SelectProjectsIdsAction,
-  UpdateProjectAction, CreateProjectAction
+  UpdateProjectAction, CreateProjectAction, DeleteProjectAction
 } from '../actions/projects.actions';
 import {ProjectCallbacks} from "../interfaces/project-callbacks";
 
@@ -64,6 +64,11 @@ export class ProjectsFacadeService {
   createProject(project: Project, projectCallbacks: ProjectCallbacks) {
     this.registerCallbacks(projectCallbacks);
     this.store.dispatch(new CreateProjectAction(project));
+  }
+
+  deleteProject(project: Project, projectCallbacks: ProjectCallbacks) {
+    this.registerCallbacks(projectCallbacks);
+    this.store.dispatch(new DeleteProjectAction(project));
   }
 
   selectProjectsIds(projectIds: string[]) {
