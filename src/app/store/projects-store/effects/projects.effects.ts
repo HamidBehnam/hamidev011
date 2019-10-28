@@ -1,21 +1,25 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {
+  CreateProjectAction,
+  CreateProjectSuccessAction,
+  DeleteProjectAction,
+  DeleteProjectSuccessAction, DestroySnapshotAction,
+  LoadProjectAction,
   LoadProjectsAction,
   LoadProjectsSuccessAction,
-  LoadProjectAction,
-  ProjectsActionTypes,
   LoadProjectSuccessAction,
+  ProjectsActionTypes,
+  RollbackRecentChangeAction,
+  TakeSnapshotAction,
   UpdateProjectAction,
-  UpdateProjectSuccessAction,
-  CreateProjectAction,
-  CreateProjectSuccessAction, DeleteProjectAction, DeleteProjectSuccessAction
+  UpdateProjectSuccessAction
 } from '../actions/projects.actions';
-import {map, switchMap} from 'rxjs/operators';
+import {catchError, map, retry, switchMap} from 'rxjs/operators';
 import {ProjectsService} from '../services/projects.service';
 import {Project} from '../models/project';
 import {ProjectsFacadeService} from "../services/projects-facade.service";
-
+import {concat, EMPTY, of} from "rxjs";
 
 
 @Injectable()
@@ -54,16 +58,40 @@ export class ProjectsEffects {
     ))
   );
 
+  // TODO: the commented section is transformed to the following Effect to implement the Eagerly updating and
+  //  Rolling back in case something is not right in the server communication process
+  // @Effect()
+  // createProjectAction$ = this.actions$.pipe(
+  //   ofType(ProjectsActionTypes.CreateProject),
+  //   switchMap((action: CreateProjectAction) => this.projectsService.createProject(action.payload)
+  //     .pipe(
+  //       map((project: Project) => {
+  //         this.projectsFacadeService.projectCallbacks.success();
+  //         return new CreateProjectSuccessAction(project);
+  //       })
+  //   ))
+  // );
+
   @Effect()
   createProjectAction$ = this.actions$.pipe(
     ofType(ProjectsActionTypes.CreateProject),
-    switchMap((action: CreateProjectAction) => this.projectsService.createProject(action.payload)
-      .pipe(
-        map((project: Project) => {
-          this.projectsFacadeService.projectCallbacks.success();
-          return new CreateProjectSuccessAction(project);
-        })
-    ))
+    switchMap((action: CreateProjectAction) => {
+      this.projectsFacadeService.projectCallbacks.success();
+      return concat(
+        of(new TakeSnapshotAction()),
+        of(new CreateProjectSuccessAction(action.payload)),
+        this.projectsService.createProject(action.payload)
+          .pipe(
+            switchMap(() => EMPTY),
+            retry(3),
+            catchError(error => {
+              this.projectsFacadeService.projectCallbacks.error();
+              return of(new RollbackRecentChangeAction());
+            })
+          ),
+        of(new DestroySnapshotAction())
+      );
+    })
   );
 
   @Effect()

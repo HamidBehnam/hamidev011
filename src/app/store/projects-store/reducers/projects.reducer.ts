@@ -9,16 +9,25 @@ export interface State extends fromRoot.State {
   [projectsFeatureKey]: ProjectsState;
 }
 
-export interface ProjectsState {
+export interface ProjectsStateCore {
   projects: Project[];
   currentProject: Project | null;
   selectedProjectsIds: string[] | null;
 }
 
-export const initialState: ProjectsState = {
+export interface ProjectsState extends ProjectsStateCore {
+  snapshot: ProjectsStateCore;
+}
+
+export const initialStateCore: ProjectsStateCore = {
   projects: [],
   currentProject: null,
   selectedProjectsIds: null
+};
+
+export const initialState: ProjectsState = {
+  ...initialStateCore,
+  snapshot: initialStateCore
 };
 
 const updateProject = (state: ProjectsState, updatedProject: Project) => {
@@ -40,6 +49,18 @@ const createProject = (state: ProjectsState, createdProject: Project) => {
 
 const deleteProject = (state: ProjectsState, deletedProject: Project) => {
   return state.projects.filter(project => project.id !== deletedProject.id);
+};
+
+const takeSnapshot = (state: ProjectsState): ProjectsStateCore => {
+  return {
+    projects: JSON.parse(JSON.stringify(state.projects)),
+    currentProject: JSON.parse(JSON.stringify(state.currentProject)),
+    selectedProjectsIds: JSON.parse(JSON.stringify(state.selectedProjectsIds)),
+  };
+};
+
+const destroySnapshot = (): ProjectsStateCore => {
+  return initialStateCore;
 };
 
 
@@ -77,6 +98,21 @@ export function reducer(state = initialState, action: ProjectsActions): Projects
         ...state,
         projects: deleteProject(state, action.payload),
         currentProject: null
+      };
+    case ProjectsActionTypes.TakeSnapshot:
+      return {
+        ...state,
+        snapshot: takeSnapshot(state)
+      };
+    case ProjectsActionTypes.DestroySnapshot:
+      return {
+        ...state,
+        snapshot: destroySnapshot()
+      };
+    case ProjectsActionTypes.RollbackRecentChange:
+      return {
+        ...state,
+        ...state.snapshot
       };
 
     default:

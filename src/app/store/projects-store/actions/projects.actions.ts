@@ -12,6 +12,9 @@ export enum ProjectsActionTypes {
   CreateProjectSuccess = '[Projects] Create Project Success',
   DeleteProject = '[Projects] Delete Project',
   DeleteProjectSuccess = '[Projects] Delete Project Success',
+  TakeSnapshot = '[Projects] Take Snapshot',
+  DestroySnapshot = '[Projects] Destroy Snapshot',
+  RollbackRecentChange = '[Projects] Rollback Recent Change',
   SelectProjectsIds = '[Projects] Select Projects Ids',
 }
 
@@ -64,6 +67,18 @@ export class DeleteProjectSuccessAction implements Action {
   constructor(public payload: Project) {}
 }
 
+export class TakeSnapshotAction implements Action {
+  readonly type = ProjectsActionTypes.TakeSnapshot;
+}
+
+export class DestroySnapshotAction implements Action {
+  readonly type = ProjectsActionTypes.DestroySnapshot;
+}
+
+export class RollbackRecentChangeAction implements Action {
+  readonly type = ProjectsActionTypes.RollbackRecentChange;
+}
+
 export class SelectProjectsIdsAction implements Action {
   readonly type = ProjectsActionTypes.SelectProjectsIds;
   constructor(public payload: string[]) { }
@@ -79,4 +94,7 @@ export type ProjectsActions = LoadProjectsAction
   | CreateProjectSuccessAction
   | DeleteProjectAction
   | DeleteProjectSuccessAction
+  | TakeSnapshotAction
+  | DestroySnapshotAction
+  | RollbackRecentChangeAction
   | SelectProjectsIdsAction;

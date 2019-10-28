@@ -22,11 +22,16 @@ export class ProjectCreatorComponent implements OnInit {
     this.router.navigate(['./projects']);
   };
 
+  createError = () => {
+    alert(`Please try again later!`);
+  };
+
   onProjectCreated(project: Project) {
     const projectMeta: ProjectMeta = {
       project,
       callbacks: {
-        success: this.createSuccess
+        success: this.createSuccess,
+        error: this.createError
       }
     };
     this.projectCreated.emit(projectMeta);
