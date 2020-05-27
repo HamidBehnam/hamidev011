@@ -87,6 +87,9 @@ export class ProjectsComponent implements OnInit {
       this.createProject(projectMeta));
   }
 
+  // TODO: another way of handling the communication between the route components is using a singleton service and
+  //  if it's necessary to make sure that data is available before loading the route, you can use the resolve
+  //  in the routing-module.ts
   onActivated(componentReference: any) {
     this.initializationCore();
 
