@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hamidev011": {
+    "hamidev-angular-6172-src": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/hamidev011",
+            "outputPath": "dist/hamidev-angular-6172-src",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hamidev011:build"
+            "browserTarget": "hamidev-angular-6172-src:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "hamidev011:build:production"
+              "browserTarget": "hamidev-angular-6172-src:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hamidev011:build"
+            "browserTarget": "hamidev-angular-6172-src:build"
           }
         },
         "test": {
@@ -115,18 +115,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "hamidev011:serve"
+            "devServerTarget": "hamidev-angular-6172-src:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "hamidev011:serve:production"
+              "devServerTarget": "hamidev-angular-6172-src:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "hamidev011",
+  "defaultProject": "hamidev-angular-6172-src",
   "cli": {
     "defaultCollection": "@ngrx/schematics"
   }
