@@ -21,6 +21,7 @@ import {Project} from '../models/project';
 import {ProjectsFacadeService} from "../services/projects-facade.service";
 import {concat, EMPTY, of} from "rxjs";
 
+// TODO: Also check https://github.com/johnpapa/ngrx-demo
 
 @Injectable()
 export class ProjectsEffects {
