@@ -12,6 +12,8 @@ import {
 } from '../actions/projects.actions';
 import {Callbacks} from "../../shared/utils/interfaces/callbacks";
 
+// TODO: Also check https://github.com/johnpapa/ngrx-demo
+
 @Injectable({
   providedIn: 'root'
 })
